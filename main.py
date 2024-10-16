@@ -41,6 +41,8 @@ def main():
         print(ex)
         exit(1)
 
+    # todo 使用 token形式访问github 或者 浏览器的形式访问
+
     print(app_type, url)
 
 

@@ -8,7 +8,7 @@ def brew_info(name, app_type=None):
     读取 brew 软件的 info
     :param name: 软件的名称
     :param app_type: 软件的类型（formula 和 cask）, 若为 None 则表示两者都获取
-    :return:
+    :return: 返回包含 软件类型 和 github rb文件网址 的元组
     """
 
     # 为None时给app_type是集合，那么后面的in判断，不管是判断在集合中还是在字符串中，那么
