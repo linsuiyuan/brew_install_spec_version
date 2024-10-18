@@ -1,10 +1,30 @@
 """入口文件"""
+import subprocess
 import sys
 from pathlib import Path
 
 import config
 import brew
 from github_client import GithubClient
+
+
+def run_command(command):
+    """执行终端命令"""
+    process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, shell=True)
+
+    # 实时读取输出
+    while True:
+        output = process.stdout.readline()
+        # 如果输出为空且进程已结束，退出循环
+        if output == '' and process.poll() is not None:
+            break
+        if output:
+            print(output.strip())
+
+    # 获取错误输出
+    stderr = process.stderr.read()
+    if stderr:
+        print(stderr.strip())
 
 
 def get_app_rb_url(app_name):
@@ -88,6 +108,12 @@ def main():
     print(f"开始下载版本：{version} 的 rb 文件")
     filename = download_and_save_rb(raw_url)
     print(f"rb 文件({filename}) 下载成功")
+
+    print(f"开始安装 {filename}")
+    run_command(f"brew install --{app_type} {filename}")
+
+    # 删除 rb 文件
+    Path(filename).unlink()
 
 
 main()
