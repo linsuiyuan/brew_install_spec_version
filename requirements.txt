@@ -1,2 +1,1 @@
-requests
-lxml
+pygithub~=2.4.0
